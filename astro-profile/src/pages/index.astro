@@ -1,0 +1,101 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Giáp Photographer | Nhâm Xuân Giáp – Nhiếp ảnh & Video Chuyên Nghiệp"
+  description="Nhâm Xuân Giáp – Nhiếp ảnh gia và nhà làm phim chuyên nghiệp tại Việt Nam. Chuyên chụp ảnh, quay phim, sản xuất nội dung TikTok, YouTube và mạng xã hội."
+>
+  <Header />
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-bg">
+        <img src="/assets/hero_bg.jpg" alt="Nhâm Xuân Giáp đang tác nghiệp" class="hero-img" />
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Nhiếp Ảnh Gia &amp; Nhà Làm Phim</p>
+        <h1 class="hero-title"><span class="hero-title-line">Nhâm Xuân</span><span class="hero-title-accent">Giáp</span></h1>
+        <p class="hero-desc">Kể câu chuyện của bạn qua từng khung hình —<br />chân thực, đẹp đẽ và đầy cảm xúc.</p>
+        <div class="hero-actions">
+          <a href="#portfolio" class="btn btn-primary">Xem tác phẩm</a>
+          <a href="#contact" class="btn btn-outline">Tư vấn ngay</a>
+        </div>
+      </div>
+      <div class="hero-scroll-indicator"><div class="scroll-line"></div><span>Cuộn xuống</span></div>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num">5+</span><span class="stat-label">Năm kinh nghiệm</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label">Dự án hoàn thành</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><span class="stat-num">100K+</span><span class="stat-label">Followers</span></div>
+      </div>
+    </section>
+
+    <section class="about section" id="about">
+      <div class="container"><div class="about-grid">
+        <div class="about-image-wrap">
+          <div class="about-img-frame"><img src="/assets/photographer_portrait.jpg" alt="Nhâm Xuân Giáp – Nhiếp ảnh gia" class="about-img" /></div>
+          <div class="about-tag"><span class="tag-icon">📸</span><span>Since 2019</span></div>
+        </div>
+        <div class="about-content">
+          <p class="section-eyebrow">Về tôi</p><h2 class="section-title">Đam mê &amp; <em>Sáng tạo</em></h2>
+          <p class="about-text">Xin chào! Tôi là <strong>Nhâm Xuân Giáp</strong> – một nhiếp ảnh gia và nhà sản xuất nội dung số với hơn 5 năm kinh nghiệm trong lĩnh vực sáng tạo hình ảnh.</p>
+          <p class="about-text">Tôi tin rằng mỗi khoảnh khắc đều có câu chuyện riêng. Từ những bức ảnh chân dung đầy cảm xúc, những thước phim điện ảnh đến các nội dung sáng tạo trên TikTok và YouTube – tôi luôn đặt tâm huyết vào từng sản phẩm.</p>
+          <div class="about-skills"><div class="skill-badge">📷 Nhiếp ảnh</div><div class="skill-badge">🎬 Quay phim</div><div class="skill-badge">🎵 TikTok</div><div class="skill-badge">▶️ YouTube</div><div class="skill-badge">✨ Editing</div><div class="skill-badge">📱 Social Media</div></div>
+          <a href="#contact" class="btn btn-primary" style="margin-top:2rem;">Hợp tác cùng tôi</a>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="services section" id="services">
+      <div class="container">
+        <div class="section-header"><p class="section-eyebrow">Dịch vụ</p><h2 class="section-title">Tôi làm <em>gì?</em></h2><p class="section-subtitle">Đa dạng dịch vụ sáng tạo nội dung – từ ảnh nghệ thuật đến video viral</p></div>
+        <div class="services-grid">
+          <article class="service-card" id="service-photo"><div class="service-icon-wrap"><div class="service-icon">📷</div></div><div class="service-media"><img src="/assets/portfolio_photo1.jpg" alt="Chụp ảnh chuyên nghiệp" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">Chụp Ảnh</h3><p class="service-desc">Chụp ảnh chân dung, thời trang, sự kiện, cưới hỏi và phong cảnh với chất lượng điện ảnh.</p><ul class="service-list"><li>Ảnh chân dung &amp; thời trang</li><li>Ảnh cưới &amp; sự kiện</li><li>Ảnh phong cảnh du lịch</li><li>Ảnh sản phẩm thương mại</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
+          <article class="service-card" id="service-video"><div class="service-icon-wrap"><div class="service-icon">🎬</div></div><div class="service-media"><img src="/assets/portfolio_video.jpg" alt="Quay phim chuyên nghiệp" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">Quay Phim</h3><p class="service-desc">Sản xuất video chuyên nghiệp từ phim ngắn, phim doanh nghiệp đến TVC quảng cáo.</p><ul class="service-list"><li>Video quảng cáo TVC</li><li>Phim doanh nghiệp</li><li>Phim ngắn nghệ thuật</li><li>Video sự kiện &amp; hội nghị</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
+          <article class="service-card service-card--featured" id="service-tiktok"><div class="service-icon-wrap"><div class="service-icon">🎵</div></div><div class="service-media"><img src="/assets/portfolio_tiktok.jpg" alt="Sản xuất nội dung TikTok" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">TikTok Content</h3><p class="service-desc">Sản xuất video TikTok viral – từ ý tưởng, quay dựng đến chiến lược phát triển kênh.</p><ul class="service-list"><li>Lên concept &amp; kịch bản</li><li>Quay &amp; dựng video TikTok</li><li>Chiến lược phát triển kênh</li><li>Tư vấn xu hướng trending</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
+          <article class="service-card" id="service-youtube"><div class="service-icon-wrap"><div class="service-icon">▶️</div></div><div class="service-media"><div class="service-img-placeholder"><div class="placeholder-icon">🎥</div><span>YouTube Production</span></div><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">YouTube &amp; Social</h3><p class="service-desc">Xây dựng và phát triển kênh YouTube, nội dung mạng xã hội chuyên nghiệp, tăng trưởng bền vững.</p><ul class="service-list"><li>Sản xuất video YouTube</li><li>Chiến lược phát triển kênh</li><li>Nội dung Instagram &amp; Facebook</li><li>Biên tập &amp; hậu kỳ chuyên nghiệp</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio section" id="portfolio">
+      <div class="container">
+        <div class="section-header"><p class="section-eyebrow">Tác phẩm tiêu biểu</p><h2 class="section-title">Thành phẩm <em>của tôi</em></h2><p class="section-subtitle">Tuyển tập những tác phẩm tâm huyết nhất</p></div>
+        <div class="portfolio-filters" role="tablist" aria-label="Lọc tác phẩm"><button class="filter-btn active" type="button" data-filter="all" id="filter-all">Tất cả</button><button class="filter-btn" type="button" data-filter="photo" id="filter-photo">Ảnh</button><button class="filter-btn" type="button" data-filter="video" id="filter-video">Video</button><button class="filter-btn" type="button" data-filter="tiktok" id="filter-tiktok">TikTok</button><button class="filter-btn" type="button" data-filter="youtube" id="filter-youtube">YouTube</button></div>
+        <div class="portfolio-grid" id="portfolioGrid">
+          <article class="portfolio-item" data-category="photo" id="pitem-1"><div class="pitem-inner"><img src="/assets/portfolio_photo1.jpg" alt="Chân dung thời trang" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Chân dung thời trang</h3><p class="pitem-sub">Studio &amp; Outdoor</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_photo1.jpg', 'Chân dung thời trang')" aria-label="Xem ảnh Chân dung thời trang">⤢</button></div></div></article>
+          <article class="portfolio-item portfolio-item--wide" data-category="video" id="pitem-2"><div class="pitem-inner"><img src="/assets/portfolio_video.jpg" alt="TVC thương mại" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">TVC Thương Mại</h3><p class="pitem-sub">Quảng cáo doanh nghiệp</p></div><button class="pitem-play" type="button" aria-label="Xem TVC thương mại">▶</button></div></div></article>
+          <article class="portfolio-item" data-category="tiktok" id="pitem-3"><div class="pitem-inner"><img src="/assets/portfolio_tiktok.jpg" alt="TikTok viral" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎵 TikTok</span><h3 class="pitem-title">Viral Content</h3><p class="pitem-sub">1M+ lượt xem</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_tiktok.jpg', 'TikTok Viral')" aria-label="Xem ảnh TikTok Viral">⤢</button></div></div></article>
+          <article class="portfolio-item" data-category="photo" id="pitem-4"><div class="pitem-inner"><img src="/assets/portfolio_photo2.jpg" alt="Phong cảnh Sapa" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Phong Cảnh Sapa</h3><p class="pitem-sub">Du lịch &amp; Thiên nhiên</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_photo2.jpg', 'Phong Cảnh Sapa')" aria-label="Xem ảnh Phong cảnh Sapa">⤢</button></div></div></article>
+          <article class="portfolio-item" data-category="youtube" id="pitem-5"><div class="pitem-inner"><div class="pitem-placeholder-bg youtube-bg"><div class="placeholder-yt-icon">▶</div><div class="placeholder-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Vlog Du Lịch</h3><p class="pitem-sub">500K+ views</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Vlog Du Lịch</h3><p class="pitem-sub">500K+ views</p></div><button class="pitem-play" type="button" aria-label="Xem Vlog Du lịch">▶</button></div></div></article>
+          <article class="portfolio-item" data-category="video" id="pitem-6"><div class="pitem-inner"><div class="pitem-placeholder-bg video-bg"><div class="placeholder-video-icon">🎬</div><div class="placeholder-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">Phim Ngắn</h3><p class="pitem-sub">Nghệ thuật</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">Phim Ngắn Nghệ Thuật</h3><p class="pitem-sub">Nghệ thuật điện ảnh</p></div><button class="pitem-play" type="button" aria-label="Xem Phim ngắn nghệ thuật">▶</button></div></div></article>
+          <article class="portfolio-item portfolio-item--tall" data-category="tiktok" id="pitem-7"><div class="pitem-inner"><div class="pitem-placeholder-bg tiktok-bg"><div class="placeholder-tt-icon">🎵</div><div class="placeholder-info"><h3 class="pitem-title">Behind The Scenes</h3></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎵 TikTok</span><h3 class="pitem-title">Behind The Scenes</h3><p class="pitem-sub">Series content</p></div><button class="pitem-play" type="button" aria-label="Xem Behind The Scenes">▶</button></div></div></article>
+          <article class="portfolio-item" data-category="photo" id="pitem-8"><div class="pitem-inner"><div class="pitem-placeholder-bg photo-bg2"><div class="placeholder-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Ảnh Sự Kiện</h3></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Ảnh Sự Kiện</h3><p class="pitem-sub">Concert &amp; Hội nghị</p></div><button class="pitem-zoom" type="button" aria-label="Xem ảnh sự kiện">⤢</button></div></div></article>
+          <article class="portfolio-item" data-category="youtube" id="pitem-9"><div class="pitem-inner"><div class="pitem-placeholder-bg youtube-bg2"><div class="placeholder-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Review Gear</h3><p class="pitem-sub">200K+ views</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Review Gear Camera</h3><p class="pitem-sub">200K+ views</p></div><button class="pitem-play" type="button" aria-label="Xem Review Gear Camera">▶</button></div></div></article>
+        </div>
+        <div class="portfolio-cta"><p>Xem thêm tác phẩm trên các nền tảng của tôi</p><div class="social-platform-btns"><a href="#" class="platform-btn tiktok-btn">🎵 TikTok</a><a href="#" class="platform-btn youtube-btn">▶️ YouTube</a><a href="#" class="platform-btn insta-btn">📸 Instagram</a></div></div>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="contact-bg"></div><div class="container">
+        <div class="section-header"><p class="section-eyebrow">Liên hệ</p><h2 class="section-title">Hãy cùng <em>tạo ra</em> điều gì đó tuyệt vời</h2><p class="section-subtitle">Tôi luôn sẵn sàng nghe về dự án của bạn và tư vấn miễn phí</p></div>
+        <div class="contact-grid"><div class="contact-info"><div class="contact-info-card"><div class="contact-info-header"><h3>Thông tin liên hệ</h3><p>Hãy nhắn tin hoặc gọi cho tôi – tôi phản hồi trong vòng 24 giờ.</p></div><ul class="contact-details"><li class="contact-detail-item"><div class="cdi-icon">📞</div><div class="cdi-text"><span class="cdi-label">Điện thoại</span><a href="tel:+84xxxxxxxxx" class="cdi-value">+84 xxx xxx xxx</a></div></li><li class="contact-detail-item"><div class="cdi-icon">✉️</div><div class="cdi-text"><span class="cdi-label">Email</span><a href="mailto:giap@photographer.vn" class="cdi-value">giap@photographer.vn</a></div></li><li class="contact-detail-item"><div class="cdi-icon">📍</div><div class="cdi-text"><span class="cdi-label">Khu vực hoạt động</span><span class="cdi-value">Hà Nội &amp; Toàn quốc</span></div></li><li class="contact-detail-item"><div class="cdi-icon">💬</div><div class="cdi-text"><span class="cdi-label">Zalo / Messenger</span><a href="#" class="cdi-value">Nhâm Xuân Giáp</a></div></li></ul><div class="contact-social"><a href="#" class="csocial-link" aria-label="TikTok">🎵</a><a href="#" class="csocial-link" aria-label="YouTube">▶️</a><a href="#" class="csocial-link" aria-label="Instagram">📸</a><a href="#" class="csocial-link" aria-label="Facebook">📘</a></div></div></div>
+          <div class="contact-form-wrap"><form class="contact-form" action="mailto:giap@photographer.vn" method="post" enctype="text/plain"><div class="form-row"><div class="form-group"><label for="fname">Họ và tên <span class="required">*</span></label><input type="text" id="fname" name="fname" placeholder="Nguyễn Văn A" required /></div><div class="form-group"><label for="fphone">Số điện thoại <span class="required">*</span></label><input type="tel" id="fphone" name="fphone" placeholder="0xxx xxx xxx" required /></div></div><div class="form-group"><label for="femail">Email</label><input type="email" id="femail" name="femail" placeholder="email@example.com" /></div><div class="form-group"><label for="fservice">Dịch vụ quan tâm <span class="required">*</span></label><select id="fservice" name="fservice" required><option value="">-- Chọn dịch vụ --</option><option value="photo">📷 Chụp ảnh</option><option value="video">🎬 Quay phim</option><option value="tiktok">🎵 TikTok Content</option><option value="youtube">▶️ YouTube &amp; Social Media</option><option value="combo">✨ Gói kết hợp</option><option value="other">💡 Khác / Tư vấn</option></select></div><div class="form-group"><label for="fmessage">Nội dung dự án</label><textarea id="fmessage" name="fmessage" rows="4" placeholder="Mô tả ngắn về dự án, ngân sách và thời gian dự kiến..."></textarea></div><button type="submit" class="btn btn-primary btn-full"><span class="btn-text">Gửi yêu cầu tư vấn</span><span class="btn-icon">→</span></button></form></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Đóng">✕</button>
+    <div class="lightbox-content" onclick="event.stopPropagation()"><img src="" alt="" class="lightbox-img" id="lightboxImg" /><p class="lightbox-caption" id="lightboxCaption"></p></div>
+  </div>
+</Layout>
