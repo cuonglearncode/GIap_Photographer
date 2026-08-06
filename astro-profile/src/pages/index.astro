@@ -2,24 +2,74 @@
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Layout from '../layouts/Layout.astro';
+
+type Setting = { key: string; value: string };
+type Service = { id: string; icon: string; image: string; title: string; desc: string; features: string; featured: string };
+type PortfolioItem = { id: string; category: string; title: string; subtitle: string; image: string; size: string; action: string };
+
+const API_BASE = 'https://opensheet.elk.sh/1EbuuihVyLmbMsx42X2uJUPvQKNvEi1BDVjjLRsA8Yxk';
+
+async function fetchSheet<T>(sheet: string): Promise<T[]> {
+  try {
+    const response = await fetch(`${API_BASE}/${sheet}`, { signal: AbortSignal.timeout(8_000) });
+    if (!response.ok) throw new Error(`${sheet}: HTTP ${response.status}`);
+    const data: unknown = await response.json();
+    return Array.isArray(data) ? (data as T[]) : [];
+  } catch (error) {
+    console.warn(`Unable to load ${sheet} data. Rendering fallback content.`, error);
+    return [];
+  }
+}
+
+const [settingsRows, services, portfolio] = await Promise.all([
+  fetchSheet<Setting>('Settings'),
+  fetchSheet<Service>('Services'),
+  fetchSheet<PortfolioItem>('Portfolio'),
+]);
+
+const fallbackServices: Service[] = [
+  { id: '1', icon: '📷', image: '/assets/portfolio_photo1.jpg', title: 'Chụp Ảnh', desc: 'Chụp ảnh chân dung, thời trang, sự kiện, cưới hỏi và phong cảnh với chất lượng điện ảnh.', features: 'Ảnh chân dung & thời trang|Ảnh cưới & sự kiện|Ảnh phong cảnh du lịch|Ảnh sản phẩm thương mại', featured: 'no' },
+  { id: '2', icon: '🎬', image: '/assets/portfolio_video.jpg', title: 'Quay Phim', desc: 'Sản xuất video chuyên nghiệp từ phim ngắn, phim doanh nghiệp đến TVC quảng cáo.', features: 'Video quảng cáo TVC|Phim doanh nghiệp|Phim ngắn nghệ thuật|Video sự kiện & hội nghị', featured: 'no' },
+  { id: '3', icon: '🎵', image: '/assets/portfolio_tiktok.jpg', title: 'TikTok Content', desc: 'Sản xuất video TikTok viral – từ ý tưởng, quay dựng đến chiến lược phát triển kênh.', features: 'Lên concept & kịch bản|Quay & dựng video TikTok|Chiến lược phát triển kênh|Tư vấn xu hướng trending', featured: 'yes' },
+  { id: '4', icon: '▶️', image: '', title: 'YouTube & Social', desc: 'Xây dựng và phát triển kênh YouTube, nội dung mạng xã hội chuyên nghiệp, tăng trưởng bền vững.', features: 'Sản xuất video YouTube|Chiến lược phát triển kênh|Nội dung Instagram & Facebook|Biên tập & hậu kỳ chuyên nghiệp', featured: 'no' },
+];
+const fallbackPortfolio: PortfolioItem[] = [
+  { id: '1', category: 'photo', title: 'Chân dung thời trang', subtitle: 'Studio & Outdoor', image: '/assets/portfolio_photo1.jpg', size: 'normal', action: 'zoom' },
+  { id: '2', category: 'video', title: 'TVC Thương Mại', subtitle: 'Quảng cáo doanh nghiệp', image: '/assets/portfolio_video.jpg', size: 'wide', action: 'play' },
+  { id: '3', category: 'tiktok', title: 'Viral Content', subtitle: '1M+ lượt xem', image: '/assets/portfolio_tiktok.jpg', size: 'normal', action: 'zoom' },
+  { id: '4', category: 'photo', title: 'Phong Cảnh Sapa', subtitle: 'Du lịch & Thiên nhiên', image: '/assets/portfolio_photo2.jpg', size: 'normal', action: 'zoom' },
+  { id: '5', category: 'youtube', title: 'Vlog Du Lịch', subtitle: '500K+ views', image: '', size: 'normal', action: 'play' },
+  { id: '6', category: 'video', title: 'Phim Ngắn Nghệ Thuật', subtitle: 'Nghệ thuật điện ảnh', image: '', size: 'normal', action: 'play' },
+  { id: '7', category: 'tiktok', title: 'Behind The Scenes', subtitle: 'Series content', image: '', size: 'tall', action: 'play' },
+  { id: '8', category: 'photo', title: 'Ảnh Sự Kiện', subtitle: 'Concert & Hội nghị', image: '', size: 'normal', action: 'zoom' },
+  { id: '9', category: 'youtube', title: 'Review Gear Camera', subtitle: '200K+ views', image: '', size: 'normal', action: 'play' },
+];
+const servicesData = services.length ? services : fallbackServices;
+const portfolioData = portfolio.length ? portfolio : fallbackPortfolio;
+const settings = new Map(settingsRows.map(({ key, value }) => [key.trim(), value.trim()]));
+const setting = (key: string, fallback: string) => settings.get(key) || fallback;
+const splitValues = (value: string, fallback: string[]) => value ? value.split('|').map((item) => item.trim()).filter(Boolean) : fallback;
+const categoryLabel: Record<string, string> = { photo: '📷 Ảnh', video: '🎬 Video', tiktok: '🎵 TikTok', youtube: '▶️ YouTube' };
+const placeholderClass: Record<string, string> = { photo: 'photo-bg2', video: 'video-bg', tiktok: 'tiktok-bg', youtube: 'youtube-bg' };
+const portfolioSizeClass = (size: string) => size === 'wide' ? 'portfolio-item--wide' : size === 'tall' ? 'portfolio-item--tall' : '';
 ---
 
 <Layout
-  title="Giáp Photographer | Nhâm Xuân Giáp – Nhiếp ảnh & Video Chuyên Nghiệp"
-  description="Nhâm Xuân Giáp – Nhiếp ảnh gia và nhà làm phim chuyên nghiệp tại Việt Nam. Chuyên chụp ảnh, quay phim, sản xuất nội dung TikTok, YouTube và mạng xã hội."
+  title={setting('site_title', 'Giáp Photographer | Nhâm Xuân Giáp – Nhiếp ảnh & Video Chuyên Nghiệp')}
+  description={setting('site_description', 'Nhâm Xuân Giáp – Nhiếp ảnh gia và nhà làm phim chuyên nghiệp tại Việt Nam.')}
 >
-  <Header />
+  <Header brandName={setting('brand_name', 'Giáp')} brandSub={setting('brand_sub', 'Photographer')} />
 
   <main>
     <section class="hero" id="hero">
       <div class="hero-bg">
-        <img src="/assets/hero_bg.jpg" alt="Nhâm Xuân Giáp đang tác nghiệp" class="hero-img" />
+        <img src={setting('hero_image', '/assets/hero_bg.jpg')} alt="Nhâm Xuân Giáp đang tác nghiệp" class="hero-img" />
         <div class="hero-overlay"></div>
       </div>
       <div class="hero-content">
-        <p class="hero-eyebrow">Nhiếp Ảnh Gia &amp; Nhà Làm Phim</p>
-        <h1 class="hero-title"><span class="hero-title-line">Nhâm Xuân</span><span class="hero-title-accent">Giáp</span></h1>
-        <p class="hero-desc">Kể câu chuyện của bạn qua từng khung hình —<br />chân thực, đẹp đẽ và đầy cảm xúc.</p>
+        <p class="hero-eyebrow">{setting('hero_eyebrow', 'Nhiếp Ảnh Gia & Nhà Làm Phim')}</p>
+        <h1 class="hero-title"><span class="hero-title-line">{setting('hero_title_line', 'Nhâm Xuân')}</span><span class="hero-title-accent">{setting('hero_title_accent', 'Giáp')}</span></h1>
+        <p class="hero-desc">{setting('hero_desc', 'Kể câu chuyện của bạn qua từng khung hình — chân thực, đẹp đẽ và đầy cảm xúc.')}</p>
         <div class="hero-actions">
           <a href="#portfolio" class="btn btn-primary">Xem tác phẩm</a>
           <a href="#contact" class="btn btn-outline">Tư vấn ngay</a>
@@ -27,11 +77,11 @@ import Layout from '../layouts/Layout.astro';
       </div>
       <div class="hero-scroll-indicator"><div class="scroll-line"></div><span>Cuộn xuống</span></div>
       <div class="hero-stats">
-        <div class="stat-item"><span class="stat-num">5+</span><span class="stat-label">Năm kinh nghiệm</span></div>
+        <div class="stat-item"><span class="stat-num">{setting('hero_stat1_num', '5+')}</span><span class="stat-label">{setting('hero_stat1_label', 'Năm kinh nghiệm')}</span></div>
         <div class="stat-divider"></div>
-        <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label">Dự án hoàn thành</span></div>
+        <div class="stat-item"><span class="stat-num">{setting('hero_stat2_num', '500+')}</span><span class="stat-label">{setting('hero_stat2_label', 'Dự án hoàn thành')}</span></div>
         <div class="stat-divider"></div>
-        <div class="stat-item"><span class="stat-num">100K+</span><span class="stat-label">Followers</span></div>
+        <div class="stat-item"><span class="stat-num">{setting('hero_stat3_num', '100K+')}</span><span class="stat-label">{setting('hero_stat3_label', 'Followers')}</span></div>
       </div>
     </section>
 
@@ -55,10 +105,16 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <div class="section-header"><p class="section-eyebrow">Dịch vụ</p><h2 class="section-title">Tôi làm <em>gì?</em></h2><p class="section-subtitle">Đa dạng dịch vụ sáng tạo nội dung – từ ảnh nghệ thuật đến video viral</p></div>
         <div class="services-grid">
-          <article class="service-card" id="service-photo"><div class="service-icon-wrap"><div class="service-icon">📷</div></div><div class="service-media"><img src="/assets/portfolio_photo1.jpg" alt="Chụp ảnh chuyên nghiệp" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">Chụp Ảnh</h3><p class="service-desc">Chụp ảnh chân dung, thời trang, sự kiện, cưới hỏi và phong cảnh với chất lượng điện ảnh.</p><ul class="service-list"><li>Ảnh chân dung &amp; thời trang</li><li>Ảnh cưới &amp; sự kiện</li><li>Ảnh phong cảnh du lịch</li><li>Ảnh sản phẩm thương mại</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
-          <article class="service-card" id="service-video"><div class="service-icon-wrap"><div class="service-icon">🎬</div></div><div class="service-media"><img src="/assets/portfolio_video.jpg" alt="Quay phim chuyên nghiệp" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">Quay Phim</h3><p class="service-desc">Sản xuất video chuyên nghiệp từ phim ngắn, phim doanh nghiệp đến TVC quảng cáo.</p><ul class="service-list"><li>Video quảng cáo TVC</li><li>Phim doanh nghiệp</li><li>Phim ngắn nghệ thuật</li><li>Video sự kiện &amp; hội nghị</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
-          <article class="service-card service-card--featured" id="service-tiktok"><div class="service-icon-wrap"><div class="service-icon">🎵</div></div><div class="service-media"><img src="/assets/portfolio_tiktok.jpg" alt="Sản xuất nội dung TikTok" class="service-img" /><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">TikTok Content</h3><p class="service-desc">Sản xuất video TikTok viral – từ ý tưởng, quay dựng đến chiến lược phát triển kênh.</p><ul class="service-list"><li>Lên concept &amp; kịch bản</li><li>Quay &amp; dựng video TikTok</li><li>Chiến lược phát triển kênh</li><li>Tư vấn xu hướng trending</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
-          <article class="service-card" id="service-youtube"><div class="service-icon-wrap"><div class="service-icon">▶️</div></div><div class="service-media"><div class="service-img-placeholder"><div class="placeholder-icon">🎥</div><span>YouTube Production</span></div><div class="service-media-overlay"></div></div><div class="service-body"><h3 class="service-title">YouTube &amp; Social</h3><p class="service-desc">Xây dựng và phát triển kênh YouTube, nội dung mạng xã hội chuyên nghiệp, tăng trưởng bền vững.</p><ul class="service-list"><li>Sản xuất video YouTube</li><li>Chiến lược phát triển kênh</li><li>Nội dung Instagram &amp; Facebook</li><li>Biên tập &amp; hậu kỳ chuyên nghiệp</li></ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div></article>
+          {servicesData.map((service) => (
+            <article class:list={['service-card', { 'service-card--featured': service.featured.toLowerCase() === 'yes' }]} id={`service-${service.id}`}>
+              <div class="service-icon-wrap"><div class="service-icon">{service.icon}</div></div>
+              <div class="service-media">
+                {service.image ? <img src={service.image} alt={service.title} class="service-img" /> : <div class="service-img-placeholder"><div class="placeholder-icon">{service.icon}</div><span>{service.title}</span></div>}
+                <div class="service-media-overlay"></div>
+              </div>
+              <div class="service-body"><h3 class="service-title">{service.title}</h3><p class="service-desc">{service.desc}</p><ul class="service-list">{splitValues(service.features, []).map((feature) => <li>{feature}</li>)}</ul><a href="#contact" class="service-link">Tư vấn ngay →</a></div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -68,15 +124,14 @@ import Layout from '../layouts/Layout.astro';
         <div class="section-header"><p class="section-eyebrow">Tác phẩm tiêu biểu</p><h2 class="section-title">Thành phẩm <em>của tôi</em></h2><p class="section-subtitle">Tuyển tập những tác phẩm tâm huyết nhất</p></div>
         <div class="portfolio-filters" role="tablist" aria-label="Lọc tác phẩm"><button class="filter-btn active" type="button" data-filter="all" id="filter-all">Tất cả</button><button class="filter-btn" type="button" data-filter="photo" id="filter-photo">Ảnh</button><button class="filter-btn" type="button" data-filter="video" id="filter-video">Video</button><button class="filter-btn" type="button" data-filter="tiktok" id="filter-tiktok">TikTok</button><button class="filter-btn" type="button" data-filter="youtube" id="filter-youtube">YouTube</button></div>
         <div class="portfolio-grid" id="portfolioGrid">
-          <article class="portfolio-item" data-category="photo" id="pitem-1"><div class="pitem-inner"><img src="/assets/portfolio_photo1.jpg" alt="Chân dung thời trang" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Chân dung thời trang</h3><p class="pitem-sub">Studio &amp; Outdoor</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_photo1.jpg', 'Chân dung thời trang')" aria-label="Xem ảnh Chân dung thời trang">⤢</button></div></div></article>
-          <article class="portfolio-item portfolio-item--wide" data-category="video" id="pitem-2"><div class="pitem-inner"><img src="/assets/portfolio_video.jpg" alt="TVC thương mại" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">TVC Thương Mại</h3><p class="pitem-sub">Quảng cáo doanh nghiệp</p></div><button class="pitem-play" type="button" aria-label="Xem TVC thương mại">▶</button></div></div></article>
-          <article class="portfolio-item" data-category="tiktok" id="pitem-3"><div class="pitem-inner"><img src="/assets/portfolio_tiktok.jpg" alt="TikTok viral" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎵 TikTok</span><h3 class="pitem-title">Viral Content</h3><p class="pitem-sub">1M+ lượt xem</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_tiktok.jpg', 'TikTok Viral')" aria-label="Xem ảnh TikTok Viral">⤢</button></div></div></article>
-          <article class="portfolio-item" data-category="photo" id="pitem-4"><div class="pitem-inner"><img src="/assets/portfolio_photo2.jpg" alt="Phong cảnh Sapa" class="pitem-img" /><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Phong Cảnh Sapa</h3><p class="pitem-sub">Du lịch &amp; Thiên nhiên</p></div><button class="pitem-zoom" type="button" onclick="openLightbox('/assets/portfolio_photo2.jpg', 'Phong Cảnh Sapa')" aria-label="Xem ảnh Phong cảnh Sapa">⤢</button></div></div></article>
-          <article class="portfolio-item" data-category="youtube" id="pitem-5"><div class="pitem-inner"><div class="pitem-placeholder-bg youtube-bg"><div class="placeholder-yt-icon">▶</div><div class="placeholder-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Vlog Du Lịch</h3><p class="pitem-sub">500K+ views</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Vlog Du Lịch</h3><p class="pitem-sub">500K+ views</p></div><button class="pitem-play" type="button" aria-label="Xem Vlog Du lịch">▶</button></div></div></article>
-          <article class="portfolio-item" data-category="video" id="pitem-6"><div class="pitem-inner"><div class="pitem-placeholder-bg video-bg"><div class="placeholder-video-icon">🎬</div><div class="placeholder-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">Phim Ngắn</h3><p class="pitem-sub">Nghệ thuật</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎬 Video</span><h3 class="pitem-title">Phim Ngắn Nghệ Thuật</h3><p class="pitem-sub">Nghệ thuật điện ảnh</p></div><button class="pitem-play" type="button" aria-label="Xem Phim ngắn nghệ thuật">▶</button></div></div></article>
-          <article class="portfolio-item portfolio-item--tall" data-category="tiktok" id="pitem-7"><div class="pitem-inner"><div class="pitem-placeholder-bg tiktok-bg"><div class="placeholder-tt-icon">🎵</div><div class="placeholder-info"><h3 class="pitem-title">Behind The Scenes</h3></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">🎵 TikTok</span><h3 class="pitem-title">Behind The Scenes</h3><p class="pitem-sub">Series content</p></div><button class="pitem-play" type="button" aria-label="Xem Behind The Scenes">▶</button></div></div></article>
-          <article class="portfolio-item" data-category="photo" id="pitem-8"><div class="pitem-inner"><div class="pitem-placeholder-bg photo-bg2"><div class="placeholder-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Ảnh Sự Kiện</h3></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">📷 Ảnh</span><h3 class="pitem-title">Ảnh Sự Kiện</h3><p class="pitem-sub">Concert &amp; Hội nghị</p></div><button class="pitem-zoom" type="button" aria-label="Xem ảnh sự kiện">⤢</button></div></div></article>
-          <article class="portfolio-item" data-category="youtube" id="pitem-9"><div class="pitem-inner"><div class="pitem-placeholder-bg youtube-bg2"><div class="placeholder-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Review Gear</h3><p class="pitem-sub">200K+ views</p></div></div><div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">▶️ YouTube</span><h3 class="pitem-title">Review Gear Camera</h3><p class="pitem-sub">200K+ views</p></div><button class="pitem-play" type="button" aria-label="Xem Review Gear Camera">▶</button></div></div></article>
+          {portfolioData.map((item) => (
+            <article class:list={['portfolio-item', portfolioSizeClass(item.size)]} data-category={item.category} id={`pitem-${item.id}`}>
+              <div class="pitem-inner">
+                {item.image ? <img src={item.image} alt={item.title} class="pitem-img" /> : <div class:list={['pitem-placeholder-bg', placeholderClass[item.category] ?? 'photo-bg2']}><div class="placeholder-info"><span class="pitem-cat">{categoryLabel[item.category] ?? item.category}</span><h3 class="pitem-title">{item.title}</h3><p class="pitem-sub">{item.subtitle}</p></div></div>}
+                <div class="pitem-overlay"><div class="pitem-info"><span class="pitem-cat">{categoryLabel[item.category] ?? item.category}</span><h3 class="pitem-title">{item.title}</h3><p class="pitem-sub">{item.subtitle}</p></div>{item.action === 'zoom' && item.image ? <button class="pitem-zoom" type="button" onclick={`openLightbox(${JSON.stringify(item.image)}, ${JSON.stringify(item.title)})`} aria-label={`Xem ảnh ${item.title}`}>⤢</button> : <button class="pitem-play" type="button" aria-label={`Xem ${item.title}`}>▶</button>}</div>
+              </div>
+            </article>
+          ))}
         </div>
         <div class="portfolio-cta"><p>Xem thêm tác phẩm trên các nền tảng của tôi</p><div class="social-platform-btns"><a href="#" class="platform-btn tiktok-btn">🎵 TikTok</a><a href="#" class="platform-btn youtube-btn">▶️ YouTube</a><a href="#" class="platform-btn insta-btn">📸 Instagram</a></div></div>
       </div>
